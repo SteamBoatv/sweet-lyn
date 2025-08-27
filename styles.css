@@ -1,0 +1,381 @@
+:root {
+    --primary-color: #E8956F;
+    --secondary-color: #F4D03F;
+    --accent-color: #FF6B6B;
+    --warm-bg: linear-gradient(135deg, #FFE4E1 0%, #F5DEB3 100%);
+    --sunset-gradient: linear-gradient(45deg, #FF6B6B, #E8956F, #F4D03F);
+    --text-dark: #8B4513;
+    --text-light: #D2691E;
+    --card-shadow: 0 10px 30px rgba(139, 69, 19, 0.1);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    line-height: 1.6;
+    color: var(--text-dark);
+    background: var(--warm-bg);
+}
+
+/* 导航栏 */
+.navbar {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 20px rgba(139, 69, 19, 0.1);
+    transition: all 0.3s ease;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--primary-color) !important;
+    text-decoration: none;
+}
+
+.navbar-nav .nav-link {
+    color: var(--text-dark) !important;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    margin: 0 10px;
+}
+
+.navbar-nav .nav-link:hover {
+    color: var(--primary-color) !important;
+}
+
+/* 主页英雄区域 */
+.hero-section {
+    background: var(--warm-bg);
+    position: relative;
+    overflow: hidden;
+}
+
+.hero-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="hearts" x="0" y="0" width="20" height="20" patternUnits="userSpaceOnUse"><text x="10" y="15" font-size="12" fill="%23E8956F" opacity="0.1" text-anchor="middle">♥</text></pattern></defs><rect width="100" height="100" fill="url(%23hearts)"/></svg>');
+    animation: float 20s linear infinite;
+}
+
+@keyframes float {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-20px); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.floating-hearts {
+    position: absolute;
+    top: -50px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 200px;
+    height: 100px;
+}
+
+.floating-hearts i {
+    position: absolute;
+    color: var(--primary-color);
+    font-size: 2rem;
+    opacity: 0.7;
+    animation: floatHeart 3s ease-in-out infinite;
+}
+
+.floating-hearts i:nth-child(1) {
+    left: 0;
+    animation-delay: 0s;
+}
+
+.floating-hearts i:nth-child(2) {
+    left: 50%;
+    transform: translateX(-50%);
+    animation-delay: 1s;
+}
+
+.floating-hearts i:nth-child(3) {
+    right: 0;
+    animation-delay: 2s;
+}
+
+@keyframes floatHeart {
+    0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.7; }
+    50% { transform: translateY(-10px) rotate(10deg); opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* 按钮样式 */
+.btn-primary {
+    background: var(--sunset-gradient);
+    border: none;
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 40px rgba(139, 69, 19, 0.2);
+}
+
+.btn-outline-primary {
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    border-radius: 50px;
+    padding: 12px 30px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    border-color: var(--primary-color);
+    transform: translateY(-3px);
+}
+
+/* 卡片样式 */
+.sweet-words-card, .countdown-card, .game-area, .memory-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 20px;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+.sweet-words-card:hover, .countdown-card:hover, .game-area:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(139, 69, 19, 0.15);
+}
+
+/* 情话区域 */
+.quote-icon {
+    color: var(--primary-color);
+    font-size: 2rem;
+    margin: 0 15px;
+}
+
+.sweet-text {
+    font-size: 1.3rem;
+    line-height: 1.8;
+    color: var(--text-dark);
+    font-style: italic;
+    min-height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px 0;
+}
+
+/* 倒计时样式 */
+.countdown-display {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    margin: 20px 0;
+}
+
+.countdown-item {
+    text-align: center;
+}
+
+.countdown-item span {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    line-height: 1;
+}
+
+.countdown-item small {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+.love-counter {
+    margin: 20px 0;
+}
+
+.counter-number {
+    font-size: 3rem;
+    font-weight: bold;
+    color: var(--primary-color);
+    display: block;
+}
+
+/* 游戏区域 */
+.game-canvas {
+    position: relative;
+    height: 300px;
+    background: linear-gradient(135deg, #FFE4E1, #F0E68C);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.score {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background: rgba(255, 255, 255, 0.9);
+    padding: 8px 15px;
+    border-radius: 20px;
+    font-weight: bold;
+    color: var(--text-dark);
+}
+
+#hearts-container {
+    width: 100%;
+    height: 100%;
+    position: relative;
+}
+
+.game-heart {
+    position: absolute;
+    font-size: 2rem;
+    color: var(--accent-color);
+    cursor: pointer;
+    animation: fallDown 3s linear infinite;
+    user-select: none;
+}
+
+@keyframes fallDown {
+    from {
+        top: -50px;
+        opacity: 1;
+    }
+    to {
+        top: 100%;
+        opacity: 0;
+    }
+}
+
+.game-heart:hover {
+    transform: scale(1.2);
+    filter: drop-shadow(0 0 10px var(--accent-color));
+}
+
+/* 回忆卡片 */
+.memory-card {
+    aspect-ratio: 1;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: all 0.3s ease;
+}
+
+.memory-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 60px rgba(139, 69, 19, 0.2);
+}
+
+.memory-placeholder {
+    height: 100%;
+    background: linear-gradient(135deg, #FFE4E1, #F5DEB3);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: var(--primary-color);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.memory-placeholder:hover {
+    background: linear-gradient(135deg, #F5DEB3, #FFE4E1);
+}
+
+/* 章节标题 */
+section h2 {
+    color: var(--text-dark);
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+section h2 i {
+    color: var(--primary-color);
+}
+
+/* 背景变化 */
+#sweet-words {
+    background: transparent;
+}
+
+#countdown, #memories {
+    background: rgba(255, 255, 255, 0.3) !important;
+}
+
+/* 页脚 */
+footer {
+    background: rgba(139, 69, 19, 0.1);
+    color: var(--text-dark);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .hero-section h1 {
+        font-size: 2.5rem;
+    }
+    
+    .countdown-display {
+        gap: 10px;
+    }
+    
+    .countdown-item span {
+        font-size: 2rem;
+    }
+    
+    .sweet-text {
+        font-size: 1.1rem;
+        padding: 0 15px;
+    }
+    
+    .game-canvas {
+        height: 250px;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-section h1 {
+        font-size: 2rem;
+    }
+    
+    .btn-lg {
+        padding: 10px 25px;
+        font-size: 1rem;
+    }
+    
+    .hero-buttons .btn {
+        display: block;
+        margin: 10px auto !important;
+        width: 200px;
+    }
+    
+    .countdown-display {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+}

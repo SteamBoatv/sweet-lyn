@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sweet Lyn - 给最特别的你</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+        <div class="container">
+            <a class="navbar-brand" href="#home">
+                <i class="fas fa-heart me-2"></i>Sweet Lyn
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">首页</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#sweet-words">情话</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#countdown">倒计时</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#games">小游戏</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#memories">回忆</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主页 -->
+    <section id="home" class="hero-section min-vh-100 d-flex align-items-center">
+        <div class="container text-center">
+            <div class="hero-content">
+                <div class="floating-hearts">
+                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart"></i>
+                    <i class="fas fa-heart"></i>
+                </div>
+                <h1 class="display-3 mb-4 fade-in">Sweet Lyn</h1>
+                <p class="lead mb-5 fade-in">一个专门为最特别的你创建的温馨角落</p>
+                <div class="hero-buttons fade-in">
+                    <a href="#sweet-words" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-quote-left me-2"></i>听情话
+                    </a>
+                    <a href="#games" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-gamepad me-2"></i>玩游戏
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 情话生成器 -->
+    <section id="sweet-words" class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8">
+                    <div class="text-center mb-5">
+                        <h2><i class="fas fa-quote-left me-3"></i>甜蜜话语</h2>
+                        <p class="text-muted">每一句话都是为你精心挑选</p>
+                    </div>
+                    <div class="sweet-words-card text-center p-5">
+                        <div class="quote-content">
+                            <i class="fas fa-quote-left quote-icon"></i>
+                            <p id="sweet-text" class="sweet-text mb-4">点击下方按钮，让爱意流淌在字里行间</p>
+                            <i class="fas fa-quote-right quote-icon"></i>
+                        </div>
+                        <button id="generate-btn" class="btn btn-primary btn-lg">
+                            <i class="fas fa-magic me-2"></i>生成情话
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 纪念日倒计时 -->
+    <section id="countdown" class="py-5 bg-light">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <div class="text-center mb-5">
+                        <h2><i class="fas fa-calendar-heart me-3"></i>重要时刻</h2>
+                        <p class="text-muted">珍贵的日子值得用心记录</p>
+                    </div>
+                    <div class="row g-4">
+                        <div class="col-md-6">
+                            <div class="countdown-card text-center p-4">
+                                <h5>下次见面</h5>
+                                <div id="meeting-countdown" class="countdown-display">
+                                    <div class="countdown-item">
+                                        <span id="days">00</span>
+                                        <small>天</small>
+                                    </div>
+                                    <div class="countdown-item">
+                                        <span id="hours">00</span>
+                                        <small>时</small>
+                                    </div>
+                                    <div class="countdown-item">
+                                        <span id="minutes">00</span>
+                                        <small>分</small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="countdown-card text-center p-4">
+                                <h5>在一起的时光</h5>
+                                <div id="together-days" class="love-counter">
+                                    <span class="counter-number">0</span>
+                                    <small>天</small>
+                                </div>
+                                <p class="small mt-2">每一天都是美好的开始</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 小游戏区域 -->
+    <section id="games" class="py-5">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2><i class="fas fa-gamepad me-3"></i>互动小游戏</h2>
+                <p class="text-muted">一起玩耍，增进感情</p>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <div class="game-area text-center p-5">
+                        <h4 class="mb-4">收集爱心</h4>
+                        <div id="game-canvas" class="game-canvas mb-4">
+                            <div class="score">得分: <span id="score">0</span></div>
+                            <div id="hearts-container"></div>
+                        </div>
+                        <button id="start-game" class="btn btn-primary">
+                            <i class="fas fa-play me-2"></i>开始游戏
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 甜蜜回忆 -->
+    <section id="memories" class="py-5 bg-light">
+        <div class="container">
+            <div class="text-center mb-5">
+                <h2><i class="fas fa-images me-3"></i>美好回忆</h2>
+                <p class="text-muted">记录我们的甜蜜时光</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-md-4">
+                    <div class="memory-card">
+                        <div class="memory-placeholder">
+                            <i class="fas fa-camera fa-3x"></i>
+                            <p class="mt-3">第一次相遇</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="memory-card">
+                        <div class="memory-placeholder">
+                            <i class="fas fa-heart fa-3x"></i>
+                            <p class="mt-3">确定关系</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="memory-card">
+                        <div class="memory-placeholder">
+                            <i class="fas fa-gift fa-3x"></i>
+                            <p class="mt-3">特殊的礼物</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- 页脚 -->
+    <footer class="py-4 text-center">
+        <div class="container">
+            <p class="mb-0">&copy; 2024 Sweet Lyn. Made with <i class="fas fa-heart text-danger"></i> for someone special.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
