@@ -153,29 +153,31 @@
                 <h2><i class="fas fa-images me-3"></i>美好回忆</h2>
                 <p class="text-muted">记录我们的甜蜜时光</p>
             </div>
-            <div class="row g-4">
-                <div class="col-md-4">
-                    <div class="memory-card">
-                        <div class="memory-placeholder">
-                            <i class="fas fa-camera fa-3x"></i>
-                            <p class="mt-3">第一次相遇</p>
-                        </div>
+            <!-- 照片上传控件 -->
+            <div class="row justify-content-center mb-4">
+                <div class="col-md-8">
+                    <div class="upload-area text-center p-4">
+                        <input type="file" id="photo-input" accept="image/*" multiple style="display: none;">
+                        <button id="upload-btn" class="btn btn-primary btn-lg">
+                            <i class="fas fa-plus me-2"></i>添加美好回忆
+                        </button>
+                        <p class="mt-2 text-muted small">支持 JPG, PNG 格式，可同时选择多张照片</p>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="memory-card">
-                        <div class="memory-placeholder">
-                            <i class="fas fa-heart fa-3x"></i>
-                            <p class="mt-3">确定关系</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="memory-card">
-                        <div class="memory-placeholder">
-                            <i class="fas fa-gift fa-3x"></i>
-                            <p class="mt-3">特殊的礼物</p>
-                        </div>
+            </div>
+            
+            <!-- 动态照片墙 -->
+            <div id="photo-gallery" class="row g-4">
+                <!-- 动态添加的照片将显示在这里 -->
+            </div>
+            
+            <!-- 空状态提示 -->
+            <div id="empty-state" class="row justify-content-center">
+                <div class="col-md-6 text-center">
+                    <div class="empty-state-card p-5">
+                        <i class="fas fa-images fa-4x mb-3 text-muted"></i>
+                        <h5 class="text-muted">还没有照片哦</h5>
+                        <p class="text-muted">点击上面的按钮，添加你们的美好回忆吧！</p>
                     </div>
                 </div>
             </div>

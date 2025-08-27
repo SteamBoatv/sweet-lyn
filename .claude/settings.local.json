@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "additionalDirectories": [
+      "C:\\Users\\11863\\.ssh"
+    ],
+    "allow": [
+      "Bash(git remote:*)"
+    ]
+  }
+}

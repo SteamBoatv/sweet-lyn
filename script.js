@@ -24,6 +24,7 @@ document.addEventListener('DOMContentLoaded', function() {
     initGame();
     initSmoothScroll();
     initAnimations();
+    initPhotoGallery();
 });
 
 // 初始化情话生成器
@@ -287,3 +288,232 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
     document.head.appendChild(style);
 });
+
+// 照片墙功能
+function initPhotoGallery() {
+    const uploadBtn = document.getElementById('upload-btn');
+    const photoInput = document.getElementById('photo-input');
+    const photoGallery = document.getElementById('photo-gallery');
+    const emptyState = document.getElementById('empty-state');
+    
+    // 页面加载时显示已存储的照片
+    loadSavedPhotos();
+    
+    // 上传按钮点击事件
+    uploadBtn.addEventListener('click', function() {
+        photoInput.click();
+    });
+    
+    // 文件选择事件
+    photoInput.addEventListener('change', function(e) {
+        const files = Array.from(e.target.files);
+        if (files.length > 0) {
+            files.forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    processPhoto(file);
+                }
+            });
+        }
+        // 清空input，允许重复选择同一文件
+        photoInput.value = '';
+    });
+}
+
+// 处理照片上传
+function processPhoto(file) {
+    const reader = new FileReader();
+    
+    reader.onload = function(e) {
+        const photoData = {
+            id: Date.now() + Math.random(), // 唯一ID
+            src: e.target.result, // base64数据
+            name: file.name,
+            uploadTime: new Date().toLocaleString('zh-CN')
+        };
+        
+        // 保存到本地存储
+        savePhoto(photoData);
+        
+        // 显示照片
+        displayPhoto(photoData);
+        
+        // 隐藏空状态
+        updateEmptyState();
+    };
+    
+    reader.readAsDataURL(file);
+}
+
+// 保存照片到本地存储
+function savePhoto(photoData) {
+    let photos = JSON.parse(localStorage.getItem('sweetlyn_photos') || '[]');
+    photos.push(photoData);
+    localStorage.setItem('sweetlyn_photos', JSON.stringify(photos));
+}
+
+// 从本地存储删除照片
+function deletePhoto(photoId) {
+    let photos = JSON.parse(localStorage.getItem('sweetlyn_photos') || '[]');
+    photos = photos.filter(photo => photo.id !== photoId);
+    localStorage.setItem('sweetlyn_photos', JSON.stringify(photos));
+}
+
+// 加载已保存的照片
+function loadSavedPhotos() {
+    const photos = JSON.parse(localStorage.getItem('sweetlyn_photos') || '[]');
+    const photoGallery = document.getElementById('photo-gallery');
+    
+    photoGallery.innerHTML = '';
+    
+    photos.forEach(photo => {
+        displayPhoto(photo);
+    });
+    
+    updateEmptyState();
+}
+
+// 显示照片
+function displayPhoto(photoData) {
+    const photoGallery = document.getElementById('photo-gallery');
+    
+    const photoCard = document.createElement('div');
+    photoCard.className = 'col-md-4';
+    photoCard.setAttribute('data-photo-id', photoData.id);
+    
+    photoCard.innerHTML = `
+        <div class="photo-card">
+            <div class="photo-container">
+                <img src="${photoData.src}" alt="${photoData.name}" class="photo-img">
+                <div class="photo-overlay">
+                    <div class="photo-actions">
+                        <button class="photo-action-btn view-btn" title="查看大图">
+                            <i class="fas fa-expand"></i>
+                        </button>
+                        <button class="photo-action-btn delete-btn" title="删除照片">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="photo-info">
+                <p class="photo-name">${photoData.name}</p>
+                <small class="photo-time">${photoData.uploadTime}</small>
+            </div>
+        </div>
+    `;
+    
+    // 添加事件监听器
+    const deleteBtn = photoCard.querySelector('.delete-btn');
+    const viewBtn = photoCard.querySelector('.view-btn');
+    const photoImg = photoCard.querySelector('.photo-img');
+    
+    // 删除功能
+    deleteBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        if (confirm('确定要删除这张照片吗？')) {
+            deletePhoto(photoData.id);
+            photoCard.remove();
+            updateEmptyState();
+            
+            // 添加删除动画
+            photoCard.style.animation = 'fadeOut 0.3s ease-out';
+            setTimeout(() => {
+                photoCard.remove();
+            }, 300);
+        }
+    });
+    
+    // 查看大图功能
+    viewBtn.addEventListener('click', function(e) {
+        e.stopPropagation();
+        showPhotoModal(photoData);
+    });
+    
+    // 图片点击也可以查看大图
+    photoImg.addEventListener('click', function() {
+        showPhotoModal(photoData);
+    });
+    
+    // 添加到画廊，带有淡入动画
+    photoCard.style.opacity = '0';
+    photoCard.style.transform = 'translateY(20px)';
+    photoGallery.appendChild(photoCard);
+    
+    // 触发动画
+    setTimeout(() => {
+        photoCard.style.transition = 'all 0.5s ease-out';
+        photoCard.style.opacity = '1';
+        photoCard.style.transform = 'translateY(0)';
+    }, 50);
+}
+
+// 显示照片模态框
+function showPhotoModal(photoData) {
+    // 创建模态框
+    const modal = document.createElement('div');
+    modal.className = 'photo-modal';
+    modal.innerHTML = `
+        <div class="photo-modal-backdrop">
+            <div class="photo-modal-content">
+                <button class="photo-modal-close">
+                    <i class="fas fa-times"></i>
+                </button>
+                <img src="${photoData.src}" alt="${photoData.name}" class="photo-modal-img">
+                <div class="photo-modal-info">
+                    <h5>${photoData.name}</h5>
+                    <p>上传时间: ${photoData.uploadTime}</p>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    
+    // 添加关闭事件
+    const closeBtn = modal.querySelector('.photo-modal-close');
+    const backdrop = modal.querySelector('.photo-modal-backdrop');
+    
+    closeBtn.addEventListener('click', closeModal);
+    backdrop.addEventListener('click', function(e) {
+        if (e.target === backdrop) {
+            closeModal();
+        }
+    });
+    
+    // ESC键关闭
+    const handleEsc = function(e) {
+        if (e.key === 'Escape') {
+            closeModal();
+        }
+    };
+    
+    document.addEventListener('keydown', handleEsc);
+    
+    function closeModal() {
+        document.removeEventListener('keydown', handleEsc);
+        modal.style.opacity = '0';
+        setTimeout(() => {
+            modal.remove();
+        }, 300);
+    }
+    
+    // 显示动画
+    setTimeout(() => {
+        modal.style.opacity = '1';
+    }, 50);
+}
+
+// 更新空状态显示
+function updateEmptyState() {
+    const photos = JSON.parse(localStorage.getItem('sweetlyn_photos') || '[]');
+    const emptyState = document.getElementById('empty-state');
+    const photoGallery = document.getElementById('photo-gallery');
+    
+    if (photos.length === 0) {
+        emptyState.style.display = 'block';
+        photoGallery.style.display = 'none';
+    } else {
+        emptyState.style.display = 'none';
+        photoGallery.style.display = 'flex';
+    }
+}
