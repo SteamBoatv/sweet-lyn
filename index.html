@@ -157,10 +157,10 @@
             <div class="row justify-content-center mb-4">
                 <div class="col-md-8">
                     <div class="upload-area text-center p-4">
-                        <input type="file" id="photo-input" accept="image/*" multiple style="display: none;">
-                        <button id="upload-btn" class="btn btn-primary btn-lg">
+                        <input type="file" id="photo-input" accept="image/*" multiple capture="environment" class="visually-hidden">
+                        <label for="photo-input" class="btn btn-primary btn-lg mb-0" style="cursor: pointer;">
                             <i class="fas fa-plus me-2"></i>添加美好回忆
-                        </button>
+                        </label>
                         <p class="mt-2 text-muted small">支持 JPG, PNG 格式，可同时选择多张照片</p>
                     </div>
                 </div>

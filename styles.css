@@ -381,6 +381,18 @@ footer {
 }
 
 /* 照片墙样式 */
+.visually-hidden {
+    position: absolute !important;
+    width: 1px !important;
+    height: 1px !important;
+    padding: 0 !important;
+    margin: -1px !important;
+    overflow: hidden !important;
+    clip: rect(0, 0, 0, 0) !important;
+    white-space: nowrap !important;
+    border: 0 !important;
+}
+
 .upload-area {
     background: rgba(255, 255, 255, 0.9);
     border: 2px dashed var(--primary-color);
@@ -392,6 +404,20 @@ footer {
     background: rgba(255, 255, 255, 1);
     border-color: var(--secondary-color);
     transform: translateY(-2px);
+}
+
+.upload-area label.btn {
+    transition: all 0.3s ease;
+    user-select: none;
+    -webkit-user-select: none;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.upload-area label.btn:hover,
+.upload-area label.btn:active,
+.upload-area label.btn:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(139, 69, 19, 0.2);
 }
 
 .empty-state-card {

@@ -291,7 +291,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 照片墙功能
 function initPhotoGallery() {
-    const uploadBtn = document.getElementById('upload-btn');
     const photoInput = document.getElementById('photo-input');
     const photoGallery = document.getElementById('photo-gallery');
     const emptyState = document.getElementById('empty-state');
@@ -299,12 +298,7 @@ function initPhotoGallery() {
     // 页面加载时显示已存储的照片
     loadSavedPhotos();
     
-    // 上传按钮点击事件
-    uploadBtn.addEventListener('click', function() {
-        photoInput.click();
-    });
-    
-    // 文件选择事件
+    // 文件选择事件 - 现在直接通过label触发
     photoInput.addEventListener('change', function(e) {
         const files = Array.from(e.target.files);
         if (files.length > 0) {

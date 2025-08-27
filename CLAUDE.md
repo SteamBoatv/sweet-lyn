@@ -44,16 +44,13 @@ Sweet Lyn is a romantic website built with pure frontend technologies (HTML, CSS
 
 ## Common Development Tasks
 
-### Deploy Changes to Both Platforms
+### Deploy Changes to GitHub Pages
 ```bash
 # After making changes to code
 git add .
 git commit -m "更新描述"
 
-# Push to Gitee (primary, SSH authentication)
-git push gitee main
-
-# Push to GitHub (backup, requires proxy)
+# Push to GitHub (automatic deployment)
 git push origin main
 ```
 
@@ -61,13 +58,11 @@ git push origin main
 1. Edit files locally (index.html, styles.css, script.js)
 2. Test in browser by opening `index.html`
 3. Commit and push changes using above commands
-4. Changes automatically deploy to both Gitee Pages and GitHub Pages
+4. Changes automatically deploy to GitHub Pages within minutes
 
 ### Network Configuration Notes
-- **For Gitee**: Uses SSH, no proxy needed
-- **For GitHub**: Requires Clash proxy on port 7897
-- **Gitee Pages**: Best for China users (fast access)
-- **GitHub Pages**: International backup option
+- **Requires Clash proxy** on port 7897 for GitHub access in China
+- **GitHub Pages**: Automatic deployment, global CDN access
 
 Since this is a pure frontend project, no build commands are needed. Simply:
 - Open `index.html` in a browser for local testing
@@ -75,34 +70,23 @@ Since this is a pure frontend project, no build commands are needed. Simply:
 
 ## Deployment Process
 
-### Primary Deployment: Gitee Pages (Recommended for China)
-1. Repository: https://gitee.com/SteamBoat/sweet-lyn
-2. SSH remote configured: `git@gitee.com:SteamBoat/sweet-lyn.git`
-3. Gitee Pages URL: `https://steamboat.gitee.io/sweet-lyn`
-4. Deploy from `main` branch
+### Primary Deployment: GitHub Pages
+1. Repository: https://github.com/SteamBoatv/sweet-lyn
+2. GitHub Pages URL: `https://steamboatv.github.io/sweet-lyn`
+3. Deploy from `main` branch
+4. Automatic deployment on every push to main
 
-### Backup Deployment: GitHub Pages
-1. Repository: https://github.com/SteamBoatv/sweet-lyn  
-2. HTTPS remote configured: `https://github.com/SteamBoatv/sweet-lyn.git`
-3. GitHub Pages URL: `https://steamboatv.github.io/sweet-lyn`
+### Git Configuration
 
-## Git Configuration
-
-### SSH Keys Configured
-- Ed25519 key: `~/.ssh/id_ed25519.pub`
-- Added to Gitee SSH keys for seamless authentication
-- Known hosts configured for gitee.com
-
-### Proxy Settings for GitHub Access
+#### Proxy Settings for GitHub Access
 ```bash
 git config --global http.proxy http://127.0.0.1:7897
 git config --global https.proxy http://127.0.0.1:7897
 ```
 *Note: Requires Clash proxy running on port 7897*
 
-### Remote Repositories
-- `origin`: GitHub (HTTPS with proxy)  
-- `gitee`: Gitee (SSH authentication)
+#### Remote Repository
+- `origin`: GitHub (HTTPS with proxy authentication)
 
 ## Customization Points
 
