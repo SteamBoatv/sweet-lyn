@@ -17,6 +17,10 @@ const sweetWords = [
     "每当想到你，心中就像升起了一轮温暖的夕阳。"
 ];
 
+// ImgBB API配置
+const IMGBB_API_KEY = '398475ce0a95d65a32e40b8453c994e5';
+const IMGBB_API_URL = 'https://api.imgbb.com/1/upload';
+
 // 等待页面加载完成
 document.addEventListener('DOMContentLoaded', function() {
     initSweetWords();
@@ -314,18 +318,24 @@ function initPhotoGallery() {
 }
 
 // 处理照片上传
-function processPhoto(file) {
-    const reader = new FileReader();
-    
-    reader.onload = function(e) {
+async function processPhoto(file) {
+    try {
+        // 显示上传进度
+        showUploadProgress(file.name);
+        
+        // 上传到ImgBB
+        const imageUrl = await uploadToImgBB(file);
+        
+        // 创建照片数据
         const photoData = {
-            id: Date.now() + Math.random(), // 唯一ID
-            src: e.target.result, // base64数据
+            id: Date.now() + Math.random(),
+            src: imageUrl, // 现在使用ImgBB的URL
             name: file.name,
-            uploadTime: new Date().toLocaleString('zh-CN')
+            uploadTime: new Date().toLocaleString('zh-CN'),
+            isCloudStored: true // 标记为云端存储
         };
         
-        // 保存到本地存储
+        // 保存到本地存储（现在存储URL而不是base64）
         savePhoto(photoData);
         
         // 显示照片
@@ -333,9 +343,118 @@ function processPhoto(file) {
         
         // 隐藏空状态
         updateEmptyState();
-    };
+        
+        // 隐藏进度提示
+        hideUploadProgress();
+        
+    } catch (error) {
+        console.error('上传失败:', error);
+        hideUploadProgress();
+        showUploadError('上传失败，请检查网络连接后重试');
+    }
+}
+
+// 上传到ImgBB
+async function uploadToImgBB(file) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        
+        reader.onload = async function(e) {
+            const base64Data = e.target.result.split(',')[1]; // 移除data:image前缀
+            
+            const formData = new FormData();
+            formData.append('key', IMGBB_API_KEY);
+            formData.append('image', base64Data);
+            formData.append('name', file.name.replace(/\.[^/.]+$/, '')); // 移除文件扩展名
+            
+            try {
+                const response = await fetch(IMGBB_API_URL, {
+                    method: 'POST',
+                    body: formData
+                });
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    resolve(result.data.url); // 返回图片URL
+                } else {
+                    reject(new Error(result.error?.message || '上传失败'));
+                }
+            } catch (error) {
+                reject(error);
+            }
+        };
+        
+        reader.onerror = function() {
+            reject(new Error('文件读取失败'));
+        };
+        
+        reader.readAsDataURL(file);
+    });
+}
+
+// 显示上传进度
+function showUploadProgress(fileName) {
+    // 移除已存在的进度提示
+    hideUploadProgress();
     
-    reader.readAsDataURL(file);
+    const progressDiv = document.createElement('div');
+    progressDiv.id = 'upload-progress';
+    progressDiv.className = 'upload-progress';
+    progressDiv.innerHTML = `
+        <div class="upload-progress-content">
+            <div class="upload-spinner"></div>
+            <div class="upload-text">
+                <p>正在上传：${fileName}</p>
+                <small>上传到云端存储中...</small>
+            </div>
+        </div>
+    `;
+    
+    document.body.appendChild(progressDiv);
+    
+    // 显示动画
+    setTimeout(() => {
+        progressDiv.style.opacity = '1';
+    }, 50);
+}
+
+// 隐藏上传进度
+function hideUploadProgress() {
+    const progressDiv = document.getElementById('upload-progress');
+    if (progressDiv) {
+        progressDiv.style.opacity = '0';
+        setTimeout(() => {
+            progressDiv.remove();
+        }, 300);
+    }
+}
+
+// 显示上传错误
+function showUploadError(message) {
+    const errorDiv = document.createElement('div');
+    errorDiv.className = 'upload-error';
+    errorDiv.innerHTML = `
+        <div class="upload-error-content">
+            <i class="fas fa-exclamation-triangle"></i>
+            <p>${message}</p>
+        </div>
+    `;
+    
+    document.body.appendChild(errorDiv);
+    
+    // 显示动画
+    setTimeout(() => {
+        errorDiv.style.opacity = '1';
+    }, 50);
+    
+    // 3秒后自动消失
+    setTimeout(() => {
+        errorDiv.style.opacity = '0';
+        setTimeout(() => {
+            errorDiv.remove();
+        }, 300);
+    }, 3000);
 }
 
 // 保存照片到本地存储

@@ -3,7 +3,8 @@
     "allow": [
       "Bash(git remote:*)",
       "Bash(git push:*)",
-      "Bash(git add:*)"
+      "Bash(git add:*)",
+      "Bash(git commit:*)"
     ],
     "additionalDirectories": [
       "C:\\Users\\11863\\.ssh"
